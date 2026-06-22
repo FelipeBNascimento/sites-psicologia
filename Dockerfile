@@ -1,8 +1,10 @@
-# Usar uma imagem base com Java 17
+# Estágio 1: Build
+FROM gradle:7.6-jdk17 AS build
+COPY --chown=gradle:gradle . /home/gradle/src
+WORKDIR /home/gradle/src
+RUN gradle build --no-daemon
+
+# Estágio 2: Execução
 FROM eclipse-temurin:17-jre-jammy
-
-# Copiar o arquivo jar gerado pelo Gradle para dentro do container
-COPY build/libs/*.jar app.jar
-
-# Comando para rodar a aplicação
+COPY --from=build /home/gradle/src/build/libs/*.jar app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]
