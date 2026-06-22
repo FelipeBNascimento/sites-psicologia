@@ -1,5 +1,5 @@
 # Usar uma imagem base com Java 17
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jre-jammy
 
 # Copiar o arquivo jar gerado pelo Gradle para dentro do container
 COPY build/libs/*.jar app.jar
